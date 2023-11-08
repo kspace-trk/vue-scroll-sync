@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const path = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const { VueLoaderPlugin } = require("vue-loader");
 
 var config = {
     mode: 'production',
@@ -20,7 +21,14 @@ var config = {
         {
           test: /\.vue$/,
           loader: 'vue-loader',
-          exclude: /(node_modules|.storybook|stories|docs)/
+          exclude: /(node_modules|.storybook|stories|docs)/,
+          options: {
+            compilerOptions: {
+              compatConfig: {
+                MODE: 2
+              }
+            }
+          }
         },
         {
           test: /\.css$/,
@@ -44,7 +52,13 @@ var config = {
     },
     externals: {
       vue: 'vue'
-    }
+    },
+    resolve: {
+      alias: {
+        vue: '@vue/compat'
+      }
+    },
+    plugins: [new VueLoaderPlugin()]
 }
 
 module.exports = [
@@ -66,27 +80,5 @@ module.exports = [
         umdNamedDefine: true
         },
         target: 'node'
-    }),
-    {
-      resolve: {
-        alias: {
-          vue: '@vue/compat'
-        }
-      },
-      module: {
-        rules: [
-          {
-            test: /\.vue$/,
-            loader: 'vue-loader',
-            options: {
-              compilerOptions: {
-                compatConfig: {
-                  MODE: 2
-                }
-              }
-            }
-          }
-        ]
-      }
-    }
+    })
 ]
