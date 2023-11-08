@@ -32,7 +32,11 @@ var config = {
         },
         {
           test: /\.css$/,
-          loader: 'style!less!css'
+          use: [
+            'style-loader',
+            'css-loader',
+            'less-loader'
+          ]
         }
       ]
     },
