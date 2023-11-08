@@ -66,5 +66,27 @@ module.exports = [
         umdNamedDefine: true
         },
         target: 'node'
-    })
+    }),
+    {
+      resolve: {
+        alias: {
+          vue: '@vue/compat'
+        }
+      },
+      module: {
+        rules: [
+          {
+            test: /\.vue$/,
+            loader: 'vue-loader',
+            options: {
+              compilerOptions: {
+                compatConfig: {
+                  MODE: 2
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
 ]
